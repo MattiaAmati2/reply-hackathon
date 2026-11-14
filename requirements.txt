@@ -1,0 +1,11 @@
+fastapi
+uvicorn[standard]
+python-multipart
+pymupdf
+faster-whisper
+librosa
+numpy
+scikit-learn
+pydantic
+httpx
+python-dotenv

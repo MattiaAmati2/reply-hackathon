@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sparring — Presentation & Lecture Coach</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen antialiased">
+  <div class="max-w-4xl mx-auto px-4 py-8 space-y-8">
+    <!-- Header -->
+    <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-800 pb-6">
+      <div>
+        <h1 class="text-2xl font-bold tracking-tight text-white">Sparring</h1>
+        <p class="text-sm text-slate-400">Asymmetric Presentation &amp; Lecture Coaching Pipeline</p>
+      </div>
+      <div id="health-badge" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium bg-slate-900 border border-slate-700 text-slate-300">
+        <span id="health-dot" class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse"></span>
+        <span id="health-text">Checking T480 (:8101)...</span>
+      </div>
+    </header>
+
+    <!-- Mode Selector -->
+    <section class="space-y-3">
+      <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400">Select Mode</label>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3" id="mode-selector">
+        <button type="button" data-mode="student_training"
+          class="mode-btn text-left p-4 rounded-xl border border-indigo-500 bg-indigo-950/40 transition">
+          <div class="font-semibold text-white">Student Training</div>
+          <div class="text-xs text-slate-400 mt-1">PDF + 3 Key Messages + Audio &amp; Webcam MediaPipe + Socratic Contraddittorio</div>
+        </button>
+
+        <button type="button" data-mode="student_live"
+          class="mode-btn text-left p-4 rounded-xl border border-slate-800 bg-slate-900/60 hover:border-slate-700 transition">
+          <div class="font-semibold text-white">Student Live</div>
+          <div class="text-xs text-slate-400 mt-1">Real Defense: PDF + Audio-only + Auto Slide Alignment</div>
+        </button>
+
+        <button type="button" data-mode="professor_live"
+          class="mode-btn text-left p-4 rounded-xl border border-slate-800 bg-slate-900/60 hover:border-slate-700 transition">
+          <div class="font-semibold text-white">Professor Live — Zero Prep</div>
+          <div class="text-xs text-slate-400 mt-1">Real Lecture: PDF + Audio-only + Comprehension Lenses + WeBeep Digest</div>
+        </button>
+      </div>
+    </section>
+
+    <!-- Session Setup Card -->
+    <section class="bg-slate-900/70 border border-slate-800 rounded-2xl p-6 space-y-6">
+      <div class="space-y-2">
+        <label for="pdf-input" class="block text-sm font-medium text-slate-200">Slide Deck (PDF)</label>
+        <input id="pdf-input" type="file" accept="application/pdf"
+          class="block w-full text-sm text-slate-300 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-indigo-600 file:text-white hover:file:bg-indigo-500 cursor-pointer" />
+      </div>
+
+      <!-- Hidden automatically in Professor Live mode -->
+      <div id="key-messages-section" class="space-y-2">
+        <label for="key-messages-input" class="block text-sm font-medium text-slate-200">
+          3 Key Messages <span class="text-xs text-slate-400">(one per line)</span>
+        </label>
+        <textarea id="key-messages-input" rows="3"
+          placeholder="1. Core thesis claim&#10;2. Key methodology insight&#10;3. Main takeaway"
+          class="w-full rounded-xl bg-slate-950 border border-slate-800 px-3.5 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500"></textarea>
+      </div>
+
+      <!-- Hidden automatically in Professor Live mode -->
+      <div id="webcam-overlay-section" class="rounded-xl border border-dashed border-slate-700 bg-slate-950/60 p-4 flex items-center justify-between">
+        <div>
+          <div class="text-sm font-medium text-slate-200">Webcam MediaPipe Overlay</div>
+          <div class="text-xs text-slate-400">Client-side Hands, Pose &amp; Gaze telemetry (Training mode)</div>
+        </div>
+        <span class="text-xs px-2.5 py-1 rounded-md bg-slate-800 text-slate-300">Ready</span>
+      </div>
+
+      <div class="flex items-center justify-between pt-2">
+        <span id="mode-summary" class="text-xs text-slate-400">Active mode: student_training</span>
+        <button id="init-btn" type="button"
+          class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-sm font-semibold text-white transition">
+          Initialize Session
+        </button>
+      </div>
+
+      <pre id="session-output" class="hidden text-xs bg-slate-950 border border-slate-800 rounded-xl p-4 text-emerald-300 overflow-x-auto"></pre>
+    </section>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
