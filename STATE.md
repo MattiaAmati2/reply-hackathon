@@ -1,7 +1,7 @@
-# Sparring — Project State
+# Kairos — Project State
 
 ## Current Phase
-- **Step 2 (Multi-Agent Evaluation, Socratic Contraddittorio, SQLite Persistence & Pipeline Wiring)** -> Completed.
+- **Step 3 (Frontend Live/Training UI, MediaPipe Telemetry & Audio Capture)** -> Completed.
 
 ## Completed Modules
 - `ARCHITECTURE.md` — System blueprint, hardware split, asymmetric modes, and layout.
@@ -24,9 +24,12 @@
 - `backend/services/evaluation_service.py` — Deterministic `ProblemIdentifier`, 3 Solvers (`SpecchioSolver`, `DeliverySolver`, `ActionableOutputSolver`), `EvaluationOrchestrator` (sequential on Ollama, concurrent on Cloud), WeBeep Digest generator, and `ContraddittorioAgent` (3-turn budget + `no_ghostwriting` boundary).
 - `backend/main.py` (wired) — `POST /api/session/init`, `POST /api/session/analyze`, `POST /api/contraddittorio/chat`, `GET /api/session/{session_id}`, and `/outputs` static mount.
 - `tests/test_step2_pipeline.py` — End-to-end FastAPI `TestClient` & orchestrator tests (4/4 passing).
+- `frontend/index.html`, `frontend/mediapipe_telemetry.js`, `frontend/app.js` — Full Kairos UI (session init + slide thumbnails, MediaRecorder + audio/video upload fallback, manual slide click tracking, lazy CDN MediaPipe Face/Hands/Pose telemetry, EvaluationReport rendering, Socratic Contraddittorio chat).
+- `backend/main.py` — Rebranded FastAPI title to `"Kairos API"` and `DB_PATH` to `data/kairos.db`.
+- `tests/test_step3_frontend.py` — Static frontend asset & `student_training` telemetry/slide-click flow tests.
 
 ## Next Up
-- **Step 3**: Frontend Live/Training UI, MediaPipe Telemetry & Audio Capture.
+- **Deployment & Live Demo**: Sync to T480 (`./t480_ops.sh start`) and run live end-to-end smoke test.
 
 ## T480 Deployment Info
 - **Target**: `/home/selfhost/Reply-Hackathon`

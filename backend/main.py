@@ -34,7 +34,7 @@ OUTPUTS_DIR = DATA_DIR / "outputs"
 SLIDES_OUT_DIR = OUTPUTS_DIR / "slides"
 ANNOTATED_DIR = OUTPUTS_DIR / "annotated"
 DIGESTS_DIR = OUTPUTS_DIR / "digests"
-DB_PATH = DATA_DIR / "sparring.db"
+DB_PATH = DATA_DIR / "kairos.db"
 FRONTEND_DIR = BASE_DIR / "frontend"
 
 VALID_MODES = ["student_training", "student_live", "professor_live"]
@@ -65,7 +65,7 @@ async def lifespan(_: FastAPI):
     yield
 
 
-app = FastAPI(title="Sparring API", version="0.2.0", lifespan=lifespan)
+app = FastAPI(title="Kairos API", version="0.2.0", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,

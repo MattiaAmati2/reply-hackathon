@@ -1,4 +1,4 @@
-# Sparring — System Architecture Blueprint
+# Kairos — System Architecture Blueprint
 
 ## Hardware Split
 - **Client Browser (Laptop / Mobile)**:
@@ -36,9 +36,10 @@ Reply-Hackathon/
 │       └── evaluation_service.py# ProblemIdentifier, 3 Solvers, Orchestrator, ContraddittorioAgent
 ├── frontend/
 │   ├── index.html               # Single-page UI (Tailwind CDN)
-│   └── app.js                   # Mode selector, conditional UI, health polling
+│   ├── mediapipe_telemetry.js   # Lazy CDN MediaPipe Face/Hands/Pose telemetry
+│   └── app.js                   # Session, audio capture, slide timing, report & Contraddittorio UI
 ├── data/
-│   ├── sparring.db              # SQLite database (auto-created)
+│   ├── kairos.db                # SQLite database (auto-created)
 │   ├── uploads/                 # Incoming PDFs & audio blobs (auto-created)
 │   └── outputs/
 │       ├── slides/              # 150 DPI slide thumbnails
@@ -46,7 +47,8 @@ Reply-Hackathon/
 │       └── digests/             # Post-Lecture WeBeep Digest Markdown files
 ├── tests/
 │   ├── test_step1_services.py   # Step 1 service unit tests
-│   └── test_step2_pipeline.py   # Step 2 pipeline, Contraddittorio & API integration tests
+│   ├── test_step2_pipeline.py   # Step 2 pipeline, Contraddittorio & API integration tests
+│   └── test_step3_frontend.py   # Step 3 static frontend & telemetry/click flow tests
 ├── .agents/
 │   └── plans/
 │       └── CURRENT_TASK.md      # Active step plan & progress
