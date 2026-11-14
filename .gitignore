@@ -19,6 +19,7 @@ ENV/
 htmlcov/
 .mypy_cache/
 .ruff_cache/
+.cache/
 
 # Environment & secrets
 .env
@@ -33,9 +34,11 @@ data/
 *.sqlite
 *.sqlite3
 
-# Logs
+# Logs & process files
 *.log
 server.log
+nohup.out
+*.pid
 
 # OS & editors
 .DS_Store
