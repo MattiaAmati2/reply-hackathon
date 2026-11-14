@@ -1,1 +1,1 @@
-"""Sparring backend package."""
+"""Kairos backend package."""

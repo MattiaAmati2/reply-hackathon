@@ -14,7 +14,7 @@ from backend.schemas import (
 
 
 class DatabaseService:
-    """SQLite persistence layer for Sparring sessions and Socratic Contraddittorio turns."""
+    """SQLite persistence layer for Kairos sessions and Socratic Contraddittorio turns."""
 
     def __init__(self, db_path: Path | str) -> None:
         self.db_path = Path(db_path)

@@ -574,7 +574,7 @@ class ContraddittorioAgent:
 
         if _GHOSTWRITING_PATTERN.search(user_message):
             refusal_msg = (
-                "Sparring Boundary: I cannot write, rewrite, or generate slides or thesis text for you. "
+                "Kairos Boundary: I cannot write, rewrite, or generate slides or thesis text for you. "
                 "Explain the argument in your own words and I will challenge it."
             )
             self.db.append_chat_turn(
@@ -639,7 +639,7 @@ class ContraddittorioAgent:
             "Ask exactly ONE focused Socratic follow-up question. Never write or rewrite slides/text."
         )
         system_prompt = (
-            "You are Sparring's Socratic examiner. Ask ONE probing question grounded in the student's "
+            "You are Kairos's Socratic examiner. Ask ONE probing question grounded in the student's "
             "slides and speech. Strictly refuse any ghostwriting or text generation."
         )
         try:

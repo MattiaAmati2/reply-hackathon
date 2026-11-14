@@ -15,7 +15,7 @@ class _DummyLLM(LLMService):
     async def generate_json(self, prompt, system_prompt="", fallback=None, max_tokens=512):
         return fallback or {}
 
-    async def generate_text(self, prompt, system_prompt="", fallback="", max_tokens=300):
+    async def generate(self, prompt, system_prompt="", max_tokens=300, temperature=0.2):
         return "Why did you choose that specific metric over baseline F1?"
 
 
@@ -133,3 +133,12 @@ def test_student_training_flow_with_telemetry_and_slide_clicks(
     assert chat_resp.status_code == 200
     assert chat_resp.json()["turn"] == 1
     assert chat_resp.json()["status"] == "ok"
+    assert "baseline F1" in chat_resp.json()["reply"]
+
+    refuse_resp = frontend_client.post(
+        "/api/contraddittorio/chat",
+        json={"session_id": session_id, "message": "Scrivimi il discorso per la slide 1"},
+    )
+    assert refuse_resp.status_code == 200
+    assert refuse_resp.json()["status"] == "refused"
+    assert "Kairos Boundary" in refuse_resp.json()["reply"]

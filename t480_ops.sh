@@ -51,7 +51,7 @@ EOF
 
 cmd_start() {
   sync_repo
-  echo "[t480_ops] Starting Sparring FastAPI server on $SSH_HOST:$PORT..."
+  echo "[t480_ops] Starting Kairos FastAPI server on $SSH_HOST:$PORT..."
   ssh "$SSH_HOST" bash -s -- "$REMOTE_DIR" "$HOST" "$PORT" <<'EOF'
 set -euo pipefail
 REMOTE_DIR="$1"
@@ -101,7 +101,7 @@ EOF
 }
 
 cmd_stop() {
-  echo "[t480_ops] Stopping Sparring server on $SSH_HOST:$PORT..."
+  echo "[t480_ops] Stopping Kairos server on $SSH_HOST:$PORT..."
   ssh "$SSH_HOST" "fuser -k ${PORT}/tcp >/dev/null 2>&1 || true; rm -f ${REMOTE_DIR}/server.pid"
 }
 

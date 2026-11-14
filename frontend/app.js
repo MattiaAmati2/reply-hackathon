@@ -163,7 +163,7 @@
       state.sessionId = data.session_id;
       state.slides = data.slides || [];
       state.currentSlideIdx = 0;
-      resetAudioState();
+      await resetAudioState();
 
       $("session-id-badge").textContent = `ID: ${data.session_id}`;
       $("session-slide-count").textContent = `${data.slide_count} slides`;
@@ -229,8 +229,8 @@
     }
   });
 
-  function resetAudioState() {
-    if (state.isRecording) stopRecording();
+  async function resetAudioState() {
+    if (state.isRecording) await stopRecording();
     state.audioBlob = null;
     state.audioFile = null;
     state.slideClicks = [];
@@ -244,10 +244,10 @@
 
   $("reset-audio-btn").addEventListener("click", resetAudioState);
 
-  $("audio-file-input").addEventListener("change", (e) => {
+  $("audio-file-input").addEventListener("change", async (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    if (state.isRecording) stopRecording();
+    if (state.isRecording) await stopRecording();
     state.audioFile = file;
     state.audioBlob = null;
     $("audio-status").textContent = `Selected file: ${file.name} (${Math.round(file.size / 1024)} KB)`;
@@ -280,15 +280,18 @@
     state.mediaRecorder.ondataavailable = (ev) => {
       if (ev.data && ev.data.size > 0) state.recordedChunks.push(ev.data);
     };
-    state.mediaRecorder.onstop = () => {
-      const type = state.mediaRecorder?.mimeType || "audio/webm";
-      state.audioBlob = new Blob(state.recordedChunks, { type });
-      $("audio-status").textContent = `Recorded audio ready (${Math.round(state.audioBlob.size / 1024)} KB)`;
-      if (state.micStream) {
-        state.micStream.getTracks().forEach((t) => t.stop());
-        state.micStream = null;
-      }
-    };
+    state.stopPromise = new Promise((resolve) => {
+      state.mediaRecorder.onstop = () => {
+        const type = state.mediaRecorder?.mimeType || "audio/webm";
+        state.audioBlob = new Blob(state.recordedChunks, { type });
+        $("audio-status").textContent = `Recorded audio ready (${Math.round(state.audioBlob.size / 1024)} KB)`;
+        if (state.micStream) {
+          state.micStream.getTracks().forEach((t) => t.stop());
+          state.micStream = null;
+        }
+        resolve();
+      };
+    });
 
     state.isRecording = true;
     state.recordStartMs = Date.now();
@@ -302,7 +305,7 @@
     }, 250);
   }
 
-  function stopRecording() {
+  async function stopRecording() {
     if (!state.isRecording) return;
     closeActiveSlideInterval(elapsedSec());
     state.isRecording = false;
@@ -310,6 +313,7 @@
     state.timerInterval = null;
     if (state.mediaRecorder && state.mediaRecorder.state !== "inactive") {
       state.mediaRecorder.stop();
+      if (state.stopPromise) await state.stopPromise;
     }
     $("record-btn").textContent = "Start Recording";
     $("record-btn").classList.replace("bg-amber-600", "bg-rose-600");
@@ -322,7 +326,7 @@
 
   $("analyze-btn").addEventListener("click", async () => {
     if (!state.sessionId) return;
-    if (state.isRecording) stopRecording();
+    if (state.isRecording) await stopRecording();
 
     const audioPayload = state.audioFile || state.audioBlob;
     if (!audioPayload) {
@@ -534,7 +538,7 @@
       const meta = data.boundary ? `Boundary: ${data.boundary}` : `Status: ${data.status}`;
       appendChatBubble("assistant", data.reply, meta);
 
-      const exhausted = data.status === "budget_exhausted" || data.turn >= data.max_turns;
+      const exhausted = data.status === "budget_exhausted";
       input.disabled = exhausted;
       $("contraddittorio-send-btn").disabled = exhausted;
     } catch (err) {
